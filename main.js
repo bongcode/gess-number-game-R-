@@ -16,6 +16,7 @@ let resetButton = document.getElementById("reset-button")
 let chances = 5
 let chanceArea = document.getElementById("chance-area")
 let gameOver = false
+let history = []
 
 palyButton.addEventListener("click", play)
 resetButton.addEventListener("click", reset)
@@ -30,6 +31,16 @@ function play(){
     let userValue = userInput.value
     console.log(userValue)
 
+    if(userValue < 1 || userValue > 100){
+        resultArea.textContent = "1에서 100사이의 값을 입력하세요"
+        return
+    }
+
+    if(history.includes(userValue)){
+        resultArea.textContent = "이미 입력한 값입니다. 다시 입력해주세요"
+        return
+    }
+
     chances --;
     chanceArea.textContent = `남은기회: ${chances}번`
 
@@ -42,6 +53,15 @@ function play(){
         resultArea.textContent = "정답입니다!!"
     }
 
+    history.push(userValue)
+    console.log(history)
+
+    if(chances < 1){
+        gameOver = true
+    }
+    if(gameOver == true){
+        palyButton.disabled = true
+    }
 }
 
 function reset(){
